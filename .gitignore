@@ -1,0 +1,6 @@
+*.swp
+*.swo
+*.pdf
+node_modules/
+*.un~
+*~
