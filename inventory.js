@@ -2,7 +2,9 @@ const db = require('./db-service.js');
 
 const getAllProducts = async (req, res) => {
 	try {
-		await res.status(200).json(db.get({}));
+		let products = await db.getAll();
+		res.send({products});
+
 	} catch (e) {
 		res.status(500).send(e);	
 	};

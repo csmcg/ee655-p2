@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const inventory = require('./inventory.js');
 const db = require('./db-service.js');
+const pug = require('pug');
 
 const port = 3000;
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
 	console.log('received get');
@@ -14,7 +15,7 @@ app.get('/', (req, res) => {
 
 app.get('/products', (req, res) => {
 	console.log('test')
-	inventory.getAll(req, res);
+	inventory.getAllProducts(req, res);
 });
 
 app.get('/products/:id', (req, res) => {

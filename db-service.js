@@ -12,9 +12,13 @@ const connectMongoose = () => {
 	db.once('open', () => console.log('Connected to MongoDB @ ' + dbHostname));
 };
 
-/*const get = async () => {
-	return await Product.find({}).exec();
-};*/
+const getAll = async () => {
+	let results = await Product.find({});
+	return results;
+};
+
+const getByID = async () => {
+};
 
 const add = () => {
 };
@@ -25,5 +29,5 @@ const update = () => {
 const remove = () => {
 }
 
-module.exports = {connectMongoose, //get, 
+module.exports = {connectMongoose, getByID, getAll,
 	add, update, remove};
