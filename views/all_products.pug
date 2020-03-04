@@ -1,0 +1,13 @@
+doctype html
+html(lang='en')
+
+	head
+		title #{title}
+	body
+		h1 #{title}
+		
+		div
+			each product in products
+				p= 'ID: ' + product.id + ', Name: ' + product.name + ', Qty: ' + product.quantity + ', Price: ' + product.price
+
+		a(href='/') Back to dashboard

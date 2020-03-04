@@ -1,0 +1,13 @@
+doctype html
+html(lang='en')
+
+	head
+		title #{title}
+	body
+		h1 #{title}
+		
+		div
+			if products != null
+				p= 'ID: ' + products.id + ', Name: ' + products.name + ', Qty: ' + products.quantity + ', Price: ' + products.price
+
+		a(href='/') Back to dashboard

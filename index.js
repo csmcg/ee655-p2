@@ -6,36 +6,65 @@ const db = require('./db-service.js');
 const pug = require('pug');
 
 const port = 3000;
-app.use(bodyParser.json());
+app.use(express.urlencoded({extended: false}));
+app.set('view engine', 'pug');
 
 app.get('/', (req, res) => {
-	console.log('received get');
-	res.sendFile(__dirname + '/index.html');
+	res.render('index');
 });
 
-app.get('/products', (req, res) => {
-	console.log('test')
-	inventory.getAllProducts(req, res);
+app.get('/products', async (req, res) => {
+	let result = await inventory.getAllProducts(req, res);
+	res.render('all_products', {title: "All Products",
+		products: result});
 });
 
-app.get('/products/:id', (req, res) => {
-	inventory.getProductByID(req, res);
+app.get('/products/:id', async (req, res) => {
+	let result = await inventory.getProductByID(req, res);
+	var resultStatus;
+		if (!!result) {
+			resultStatus = "Product Found";
+		} else {
+			resultStatus = "Product Doesn't Exist";
+		}
+	res.render('action_response', {title: resultStatus,
+		products: result});
 });
 
-app.get('/delete/:id', (req, res) => {
-	inventory.deleteProductByID(req, res);
+app.get('/delete/:id', async (req, res) => {
+	let result = await inventory.deleteProductByID(req, res);
+	var resultStatus;
+	if (!!result) {
+		resultStatus = "Product Deleted";
+	} else {
+		resultStatus = "Product Doesn't Exist";
+	}
+	res.render('action_response', {title: resultStatus,
+		products: result});
 });
 
-app.get('/delete', (req, res) => {
-	inventory.deleteAllProducts(req, res);
+app.get('/delete', async (req, res) => {
+	let result = await inventory.deleteAllProducts(req, res);
+	var resultStatus = "Deleted all products";
+	res.render('action_response', {title: resultStatus,
+		products: result});
 });
 
-app.post('/add_product/:id', (req, res) => {
-	inventory.addProduct(req, res);
+app.post('/add_product/', async (req, res) => {
+	let result = await inventory.addProduct(req, res);
+	var resultStatus = "Added product";
+	res.render('action_response', {title: resultStatus,
+		products: result});
 });
 
-app.post('/update_product/:id', (req, res) => {
-	inventory.updateProduct(req, res);
+app.post('/update_product/', async (req, res) => {
+	let result = await inventory.updateProduct(req, res);
+	let resultStatus;
+	if (!!result) resultStatus = "Updated Product";
+	else resultStatus = "Product does not previously exist"
+
+	res.render('action_response', {title: resultStatus,
+		products: result});
 });
 
 app.listen(port, () => {

@@ -1,0 +1,39 @@
+doctype html
+html(lang='en')
+
+	head
+		title Inventory System Dashboard
+	body
+		h1 ADD PRODUCT
+		p All fields required
+		form(method='POST' action='/add_product')
+			div.form-group
+				label(for='id') ID:
+				input#id.form-control(type='number', name='id', required)
+			div.form-group
+				label(for='name') Name:
+				input#name.form-control(type='text', name='name', required)
+			div.form-group
+				label(for='quantity') Quantity:
+				input#quantity.form-control(type='number', name='quantity', required)
+			div.form-group
+				label(for='price') Price:
+				input#price.form-control(type='number', name='price', step='0.01', required)
+			button.btn.btn-primary(type='submit') Add Product
+
+		h2 UPDATE PRODUCT
+		p ID is required. Fields left blank will not be updated.
+		form(method='POST' action='/update_product')
+			div.form-group
+				label(for='id') ID:
+				input#id.form-control(type='number', name='id', required)
+			div.form-group
+				label(for='name') Name:
+				input#name.form-control(type='text', name='name')
+			div.form-group
+				label(for='quantity') Quantity:
+				input#quantity.form-control(type='number', name='quantity')
+			div.form-group
+				label(for='price') Price:
+				input#price.form-control(type='number', name='price', step='0.01')
+			button.btn.btn-primary(type='submit') Update Product

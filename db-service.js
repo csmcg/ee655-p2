@@ -4,6 +4,7 @@ const dbName = 'ee655-p2';
 const collectionName = 'inventory';
 const dbHostname = url + '/' + dbName;
 const Product = require('./ProductSchema.js');
+const _ = require('lodash');
 
 const connectMongoose = () => {
 	mongoose.connect(dbHostname, {useNewUrlParser: true});
@@ -13,21 +14,35 @@ const connectMongoose = () => {
 };
 
 const getAll = async () => {
-	let results = await Product.find({});
-	return results;
+	let allProducts = await Product.find({}).sort({id: 1});
+	return allProducts;
 };
 
-const getByID = async () => {
+const getByID = async (q) => {
+	let product = await Product.findOne({id: q});
+	return product;
 };
 
-const add = () => {
+const add = async (p) => {
+	let product = new Product(p);
+	await product.save();
+	
 };
 
-const update = () => {
+const update = async (p) => {
+	const updated = _.assign(p);	
+	let product = await Product.findOneAndUpdate({id: p.id}, updated, {new: true});
+	return product;
 };
 
-const remove = () => {
-}
+const remove = async (q) => {
+	let result = await Product.findOneAndDelete({id: q}).sort({id: 1});
+	return result;	
+};
+
+const removeAll = async () => {
+	await Product.deleteMany({});
+};
 
 module.exports = {connectMongoose, getByID, getAll,
-	add, update, remove};
+	add, update, remove, removeAll};
